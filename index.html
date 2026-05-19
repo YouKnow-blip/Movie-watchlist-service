@@ -162,10 +162,7 @@
     button{
       border:none;
       border-radius:14px;
-      padding:14px;
       cursor:pointer;
-      font-size:16px;
-      font-weight:bold;
       transition:0.2s;
     }
 
@@ -176,6 +173,9 @@
     .main-btn{
       background:linear-gradient(135deg,var(--pink),var(--purple));
       color:white;
+      padding:14px;
+      font-size:15px;
+      font-weight:700;
     }
 
     .random-box{
@@ -221,9 +221,9 @@
     }
 
     .movie-poster{
-      width:95px;
-      min-width:95px;
-      height:140px;
+      width:90px;
+      min-width:90px;
+      height:130px;
       object-fit:cover;
       border-radius:18px;
     }
@@ -253,14 +253,32 @@
 
     .movie-actions{
       display:flex;
-      gap:10px;
+      gap:8px;
       flex-wrap:wrap;
-      margin-bottom:15px;
+      margin-bottom:14px;
+    }
+
+    .watch-btn,
+    .fav-btn,
+    .delete-btn{
+      border:none;
+      border-radius:12px;
+      padding:10px 14px;
+      cursor:pointer;
+      font-size:13px;
+      font-weight:600;
+      transition:0.2s;
+    }
+
+    .watch-btn:hover,
+    .fav-btn:hover,
+    .delete-btn:hover{
+      transform:scale(1.05);
     }
 
     .watch-btn{
-      background:var(--green);
-      color:black;
+      background:linear-gradient(135deg,#4ade80,#22c55e);
+      color:#052e16;
     }
 
     .fav-btn{
@@ -269,11 +287,19 @@
     }
 
     .active-fav{
-      background:var(--pink);
+      background:linear-gradient(
+        135deg,
+        var(--pink),
+        var(--purple)
+      );
     }
 
     .delete-btn{
-      background:#ef4444;
+      background:linear-gradient(
+        135deg,
+        #ef4444,
+        #dc2626
+      );
       color:white;
     }
 
@@ -285,12 +311,30 @@
     }
 
     .react-btn{
-      background:#27272a;
+      background:rgba(255,255,255,0.06);
       color:white;
       border:none;
       border-radius:999px;
-      padding:8px 12px;
-      font-size:14px;
+      padding:7px 11px;
+      font-size:13px;
+      cursor:pointer;
+      transition:0.2s;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .react-btn:hover{
+      transform:scale(1.08);
+      background:rgba(255,255,255,0.12);
+    }
+
+    .react-btn.active{
+      background:linear-gradient(
+        135deg,
+        var(--pink),
+        var(--purple)
+      );
     }
 
     .comment-input{
@@ -521,6 +565,7 @@ const db = getFirestore(app);
 
 const moviesRef = collection(db,"movies");
 const commentsRef = collection(db,"comments");
+const reactionsRef = collection(db,"reactions");
 
 const categoriesContainer =
 document.getElementById("categories");
@@ -637,11 +682,25 @@ function createMovieCard(movie,id){
 
       <div class="reactions">
 
-        <button class="react-btn">❤️</button>
-        <button class="react-btn">😂</button>
-        <button class="react-btn">😭</button>
-        <button class="react-btn">🔥</button>
-        <button class="react-btn">🤯</button>
+        <button class="react-btn" data-emoji="❤️">
+          ❤️ <span>0</span>
+        </button>
+
+        <button class="react-btn" data-emoji="😂">
+          😂 <span>0</span>
+        </button>
+
+        <button class="react-btn" data-emoji="😭">
+          😭 <span>0</span>
+        </button>
+
+        <button class="react-btn" data-emoji="🔥">
+          🔥 <span>0</span>
+        </button>
+
+        <button class="react-btn" data-emoji="🤯">
+          🤯 <span>0</span>
+        </button>
 
       </div>
 
@@ -669,6 +728,9 @@ function createMovieCard(movie,id){
 
   const commentList =
     card.querySelector(".comment-list");
+
+  const reactButtons =
+    card.querySelectorAll(".react-btn");
 
   watchBtn.onclick = async ()=>{
 
@@ -699,6 +761,61 @@ function createMovieCard(movie,id){
     );
 
   };
+
+  reactButtons.forEach(btn=>{
+
+    btn.onclick = async ()=>{
+
+      const emoji =
+        btn.dataset.emoji;
+
+      await addDoc(reactionsRef,{
+        movieId:id,
+        emoji,
+        createdAt:Date.now()
+      });
+
+    };
+
+  });
+
+  onSnapshot(reactionsRef,(snapshot)=>{
+
+    const counts = {};
+
+    snapshot.forEach(docItem=>{
+
+      const reaction =
+        docItem.data();
+
+      if(reaction.movieId !== id)
+        return;
+
+      counts[reaction.emoji] =
+        (counts[reaction.emoji] || 0) + 1;
+
+    });
+
+    reactButtons.forEach(btn=>{
+
+      const emoji =
+        btn.dataset.emoji;
+
+      const count =
+        counts[emoji] || 0;
+
+      btn.querySelector("span")
+        .textContent = count;
+
+      if(count > 0){
+        btn.classList.add("active");
+      }else{
+        btn.classList.remove("active");
+      }
+
+    });
+
+  });
 
   commentInput.addEventListener(
     "keypress",
