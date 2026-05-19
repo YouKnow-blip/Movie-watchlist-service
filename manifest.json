@@ -1,16 +1,1 @@
-{
-  "name": "Мы Смотрим",
-  "short_name": "Мы Смотрим",
-  "start_url": ".",
-  "display": "standalone",
-  "background_color": "#F6EFC8",
-  "theme_color": "#A685E2",
-  "orientation": "portrait",
-  "icons": [
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/3418/3418886.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
-}
+
