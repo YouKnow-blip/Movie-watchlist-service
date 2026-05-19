@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>❤️ Яна и Юра смотрят фильмы</title>
+
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: rgba(17,24,39,0.85);
+      --border: rgba(255,255,255,0.08);
+      --pink: #ec4899;
+      --purple: #8b5cf6;
+      --green: #4ade80;
+      --text: #ffffff;
+      --muted: #94a3b8;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(236,72,153,0.15), transparent 25%),
+        radial-gradient(circle at bottom right, rgba(139,92,246,0.15), transparent 25%),
+        #0f172a;
+      color: white;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 42px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #94a3b8;
+      margin-bottom: 40px;
+    }
+
+    .stats {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:20px;
+      margin-bottom:35px;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:25px;
+      backdrop-filter: blur(12px);
+      text-align:center;
+      box-shadow:0 10px 25px rgba(0,0,0,0.25);
+    }
+
+    .stat-card h3 {
+      color:var(--muted);
+      margin-bottom:10px;
+      font-size:16px;
+    }
+
+    .stat-card div {
+      font-size:42px;
+      font-weight:bold;
+    }
+
+    .movie-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:20px;
+    }
+
+    .movie-card {
+      background: var(--card);
+      border:1px solid var(--border);
+      border-radius:24px;
+      overflow:hidden;
+      backdrop-filter: blur(14px);
+      transition:0.25s;
+      box-shadow:0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .movie-card:hover {
+      transform: translateY(-6px) scale(1.01);
+    }
+
+    
+
+    .movie-content {
+      padding:18px;
+    }
+
+    .movie-title {
+      font-size:22px;
+      font-weight:bold;
+      margin-bottom:10px;
+    }
+
+    .movie-desc {
+      color:var(--muted);
+      margin-bottom:18px;
+      line-height:1.5;
+    }
+
+    .movie-actions {
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .movie-btn {
+      border:none;
+      border-radius:12px;
+      padding:10px 14px;
+      cursor:pointer;
+      font-weight:bold;
+      transition:0.2s;
+    }
+
+    .watch-btn {
+      background:var(--green);
+      color:black;
+    }
+
+    .fav-btn {
+      background:#27272a;
+      color:white;
+    }
+
+    .delete-btn {
+      background:#ef4444;
+      color:white;
+    }
+
+    .category {
+      background: #111827;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .category h2 {
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 14px;
+      border-bottom: 1px solid #374151;
+      text-align: left;
+    }
+
+    th {
+      color: #94a3b8;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    tr:hover {
+      background: rgba(255,255,255,0.03);
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #374151;
+      background: #1f2937;
+      color: white;
+    }
+
+    input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      cursor: pointer;
+    }
+
+    .planner {
+      background: linear-gradient(135deg, #ec4899, #8b5cf6);
+      border-radius: 24px;
+      padding: 25px;
+      margin-top: 40px;
+    }
+
+    .planner h2 {
+      margin-bottom: 20px;
+    }
+
+    .save-note {
+      text-align: center;
+      margin-top: 30px;
+      color: #94a3b8;
+    }
+
+    @media(max-width: 900px) {
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>❤️ Яна и Юра смотрят фильмы ❤️</h1>
+  <p class="subtitle">Ваш уютный список фильмов, сериалов и шоу для идеальных вечеров вдвоём 🍿</p>
+
+  <div style="display:flex; justify-content:center; gap:20px; margin-bottom:40px; flex-wrap:wrap;">
+    <div style="background:#111827; padding:20px 30px; border-radius:20px; text-align:center; min-width:220px; box-shadow:0 10px 25px rgba(0,0,0,0.3);">
+      <div style="font-size:18px; color:#94a3b8;">🎬 Всего фильмов и шоу</div>
+      <div id="totalCount" style="font-size:42px; font-weight:bold; margin-top:10px;">0</div>
+    </div>
+
+    <div style="background:#111827; padding:20px 30px; border-radius:20px; text-align:center; min-width:220px; box-shadow:0 10px 25px rgba(0,0,0,0.3);">
+      <div style="font-size:18px; color:#94a3b8;">✅ Уже посмотрели</div>
+      <div id="watchedCount" style="font-size:42px; font-weight:bold; margin-top:10px; color:#4ade80;">0</div>
+    </div>
+  </div>
+
+  <div style="background:#111827; padding:25px; border-radius:24px; margin-bottom:40px; box-shadow:0 10px 25px rgba(0,0,0,0.3);">
+    <h2 style="margin-bottom:20px;">➕ Добавить свой фильм или шоу</h2>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px;">
+      <input id="newTitle" type="text" placeholder="Название">
+      <input id="newDesc" type="text" placeholder="Описание">
+      <input id="newCategory" type="text" placeholder="Категория">
+      <button id="addMovieBtn" style="background:linear-gradient(135deg,#ec4899,#8b5cf6); border:none; border-radius:14px; color:white; font-size:18px; cursor:pointer; font-weight:bold;">Добавить</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <h3>🎬 Всего фильмов и шоу</h3>
+      <div id="totalCount">0</div>
+    </div>
+
+    <div class="stat-card">
+      <h3>✅ Посмотрели</h3>
+      <div id="watchedCount">0</div>
+    </div>
+
+    <div class="stat-card">
+      <h3>❤️ Избранное</h3>
+      <div id="favCount">0</div>
+    </div>
+  </div>
+
+  <div style="background:rgba(17,24,39,0.85); border:1px solid rgba(255,255,255,0.08); border-radius:24px; padding:25px; margin-bottom:40px; backdrop-filter:blur(12px);">
+    <h2 style="margin-bottom:20px;">➕ Добавить фильм или шоу</h2>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px;">
+      <input id="newTitle" type="text" placeholder="Название">
+      <input id="newDesc" type="text" placeholder="Описание">
+      
+      <input id="newCategory" type="text" placeholder="Категория">
+      <button id="addMovieBtn" style="background:linear-gradient(135deg,#ec4899,#8b5cf6); border:none; border-radius:14px; color:white; font-size:18px; cursor:pointer; font-weight:bold;">Добавить</button>
+    </div>
+  </div>
+
+  <div id="app"></div>
+
+  <div class="category" id="watchedSection">
+    <h2 style="margin-bottom:20px; font-size:30px;">✅ Уже посмотрели</h2>
+    <div class="movie-grid" id="watchedGrid"></div>
+  </div>
+
+  <div class="planner">
+    <h2>🗓️ План на ближайшие вечера</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>День</th>
+          <th>Что смотреть</th>
+          <th>Снэки</th>
+          <th>Готово</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td><input type="text" placeholder="Пятница"></td>
+          <td><input type="text" placeholder="Например: Palm Springs"></td>
+          <td><input type="text" placeholder="Пицца / чипсы"></td>
+          <td><input type="checkbox"></td>
+        </tr>
+
+        <tr>
+          <td><input type="text" placeholder="Суббота"></td>
+          <td><input type="text" placeholder="Например: Perfect Match"></td>
+          <td><input type="text" placeholder="Кола + суши"></td>
+          <td><input type="checkbox"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="text-align:center; margin:40px 0;">
+    <button id="randomBtn" style="background: linear-gradient(135deg, #ec4899, #8b5cf6); border:none; color:white; padding:16px 28px; border-radius:16px; font-size:20px; cursor:pointer; font-weight:bold; box-shadow:0 10px 25px rgba(0,0,0,0.3); transition:0.2s;">
+      🎲 Случайный фильм / шоу
+    </button>
+
+    <div id="randomResult" style="margin-top:25px; font-size:24px; font-weight:bold;"></div>
+  </div>
+
+  <p class="save-note">✅ Все изменения автоматически сохраняются в браузере</p>
+
+  <script>
+    const categories = {
+      '😂 Комедии': [
+        ['Притворись моей женой', 'Лёгкая романтическая комедия с Адамом Сэндлером', 'https://image.tmdb.org/t/p/w500/9EW7L7btiP0M3zJ6Qk4t2M7wJ0V.jpg'],
+        ['50 первых поцелуев', 'Очень уютная и милая история любви', 'https://image.tmdb.org/t/p/w500/6DzHqjZfZ6q3V7R2sQ4L6T7R6jT.jpg'],
+        ['Мы — Миллеры', 'Очень смешная дорожная комедия', 'https://image.tmdb.org/t/p/w500/yNJreiR3PuiGwsWWJCt6c3Wyatc.jpg'],
+      ],
+
+      '❤️ Романтическое': [
+        ['Зависнуть в Палм-Спрингс', 'Романтика + петля времени + крутой юмор', 'https://image.tmdb.org/t/p/w500/xgDj56UWyeWQcxQ44f5A3RTWuSs.jpg'],
+        ['Ла-Ла Ленд', 'Красивый романтический фильм', 'https://image.tmdb.org/t/p/w500/uDO8zWDhfWwoFdKS4fzkUJt0Rf0.jpg'],
+      ],
+
+      '🔥 Телешоу': [
+        ['Испытание близостью', 'Парам нельзя трогать друг друга', 'https://image.tmdb.org/t/p/w500/8J7X5m8iYf2s5H1zJzN2QmKxj4D.jpg'],
+      ],
+      '😂 Комедии': [
+        ['Притворись моей женой', 'Лёгкая романтическая комедия с Адамом Сэндлером'],
+        ['50 первых поцелуев', 'Очень уютная и милая история любви'],
+        ['Эта дурацкая любовь', 'Смешная и стильная романтическая комедия'],
+        ['Секс по дружбе', 'Много флирта и хорошей химии'],
+        ['Предложение', 'Комфортное кино с классным юмором'],
+        ['Загадочное убийство', 'Сэндлер + детективный угар'],
+        ['Мы — Миллеры', 'Очень смешная дорожная комедия'],
+        ['Белые цыпочки', 'Легендарный туповатый юмор'],
+      ],
+
+      '❤️ Романтическое': [
+        ['Зависнуть в Палм-Спрингс', 'Романтика + петля времени + крутой юмор'],
+        ['Бойфренд из будущего', 'Добрый и очень тёплый фильм'],
+        ['Отпуск по обмену', 'Идеально под вечер и плед'],
+        ['Ла-Ла Ленд', 'Красивый романтический фильм'],
+        ['Дон Жуан де Марко', 'Чувственный фильм с Джонни Деппом'],
+      ],
+
+      '👀 Внимательно смотреть': [
+        ['Исчезнувшая', 'Напряжённый фильм про отношения'],
+        ['Остров проклятых', 'Психологический триллер'],
+        ['Начало', 'Сон внутри сна'],
+        ['Престиж', 'Магия и тайны'],
+      ],
+
+      '📺 Сериалы': [
+        ['Половое воспитание', 'Смешной и жизненный сериал'],
+        ['Ты', 'Маньяк-романтик и странные отношения'],
+        ['Эмили в Париже', 'Лёгкий сериал под расслабон'],
+        ['Как я встретил вашу маму', 'Уютный ситком'],
+      ],
+
+      '🔥 Телешоу': [
+        ['Испытание близостью', 'Парам нельзя трогать друг друга'],
+        ['Идеальная пара', 'Флирт и куча драмы'],
+        ['Любовь слепа', 'Люди влюбляются не видя друг друга'],
+        ['Особняк MILF', 'Максимально странное и залипательное шоу'],
+      ],
+
+      '🍿 Под чипсы': [
+        ['Пираты Карибского моря', 'Классическое приключение с Джонни Деппом'],
+        ['Чарли и шоколадная фабрика', 'Странный, уютный и атмосферный'],
+        ['Мрачные тени', 'Готический юмор + романтика'],
+        ['Ночные игры', 'Угарная комедия с неожиданным сюжетом'],
+      ]
+    };
+
+    const app = document.getElementById('app');
+
+    function updateStats() {
+      const watched = document.querySelectorAll('.watch-btn.active').length;
+      const favs = document.querySelectorAll('.fav-btn.active').length;
+      const total = document.querySelectorAll('.movie-card').length;
+
+      document.getElementById('watchedCount').textContent = watched;
+      document.getElementById('favCount').textContent = favs;
+      document.getElementById('totalCount').textContent = total;
+    }
+
+    function saveData() {
+      const inputs = document.querySelectorAll('input');
+      const data = [];
+
+      inputs.forEach(input => {
+        if(input.type === 'checkbox') {
+          data.push(input.checked);
+        } else {
+          data.push(input.value);
+        }
+      });
+
+      localStorage.setItem('movieTrackerData', JSON.stringify(data));
+      updateStats();
+    }
+
+    function loadData() {
+      const saved = JSON.parse(localStorage.getItem('movieTrackerData'));
+      if(!saved) return;
+
+      const inputs = document.querySelectorAll('input');
+
+      inputs.forEach((input, index) => {
+        if(saved[index] !== undefined) {
+          if(input.type === 'checkbox') {
+            input.checked = saved[index];
+          } else {
+            input.value = saved[index];
+          }
+        }
+      });
+    }
+
+    function createMovieCard(title, desc) {
+      return `
+        <div class="movie-card">
+          
+
+          <div class="movie-content">
+            <div class="movie-title">${title}</div>
+            <div class="movie-desc">${desc}</div>
+
+            <div class="movie-actions">
+              <button class="movie-btn watch-btn">✅ Посмотрели</button>
+              <button class="movie-btn fav-btn">❤️ Хочу</button>
+              <button class="movie-btn delete-btn">🗑️ Удалить</button>
+            </div>
+
+            <input type="text" placeholder="Когда смотреть" style="margin-top:15px;">
+          </div>
+        </div>
+      `;
+    }
+
+    Object.entries(categories).forEach(([category, items]) => {
+      const section = document.createElement('div');
+      section.className = 'category';
+
+      let cards = '';
+
+      items.forEach(([title, desc]) => {
+        cards += createMovieCard(title, desc);
+      });
+
+      section.innerHTML = `
+        <h2 style="margin-bottom:20px; font-size:30px;">${category}</h2>
+        <div class="movie-grid">${cards}</div>
+      `;
+
+      app.appendChild(section);
+    });
+
+    document.addEventListener('input', saveData);
+
+    const allTitles = [];
+
+    Object.values(categories).forEach(category => {
+      category.forEach(item => {
+        allTitles.push(item[0]);
+      });
+    });
+
+    const randomBtn = document.getElementById('randomBtn');
+    const randomResult = document.getElementById('randomResult');
+
+    randomBtn.addEventListener('click', () => {
+      const randomMovie = allTitles[Math.floor(Math.random() * allTitles.length)];
+
+      randomResult.innerHTML = `🍿 Сегодня смотрите: <span style="color:#f472b6">${randomMovie}</span>`;
+    });
+
+    const addMovieBtn = document.getElementById('addMovieBtn');
+
+    addMovieBtn.addEventListener('click', () => {
+      const title = document.getElementById('newTitle').value.trim();
+      const desc = document.getElementById('newDesc').value.trim();
+      
+      const category = document.getElementById('newCategory').value.trim() || '🎥 Свои фильмы';
+
+      if(!title) return;
+
+      let categoryBlock = [...document.querySelectorAll('.category')].find(block =>
+        block.querySelector('h2').textContent === category
+      );
+
+      if(!categoryBlock) {
+        categoryBlock = document.createElement('div');
+        categoryBlock.className = 'category';
+
+        categoryBlock.innerHTML = `
+          <h2 style="margin-bottom:20px; font-size:30px;">${category}</h2>
+          <div class="movie-grid"></div>
+        `;
+
+        app.appendChild(categoryBlock);
+      }
+
+      categoryBlock.querySelector('.movie-grid').innerHTML += createMovieCard(title, desc);
+
+      document.getElementById('newTitle').value = '';
+      document.getElementById('newDesc').value = '';
+      
+      document.getElementById('newCategory').value = '';
+
+      attachMovieEvents();
+      updateStats();
+      saveData();
+    });
+
+    function attachMovieEvents() {
+      document.querySelectorAll('.watch-btn').forEach(btn => {
+        btn.onclick = () => {
+          btn.classList.toggle('active');
+
+          const card = btn.closest('.movie-card');
+          const watchedGrid = document.getElementById('watchedGrid');
+
+          if(btn.classList.contains('active')) {
+            btn.innerHTML = '✅ Просмотрено';
+            watchedGrid.appendChild(card);
+          } else {
+            btn.innerHTML = '✅ Посмотрели';
+            document.querySelector('.category .movie-grid').appendChild(card);
+          }
+
+          updateStats();
+          saveData();
+        };
+      });
+
+      document.querySelectorAll('.fav-btn').forEach(btn => {
+        btn.onclick = () => {
+          btn.classList.toggle('active');
+          btn.style.background = btn.classList.contains('active') ? '#ec4899' : '#27272a';
+          saveData();
+        };
+      });
+
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.onclick = () => {
+          btn.closest('.movie-card').remove();
+          updateStats();
+          saveData();
+        };
+      });
+    }
+
+    attachMovieEvents();
+
+    loadData();
+    updateStats();
+  </script>
+
+</body>
+</html>
