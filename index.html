@@ -1,3 +1,4 @@
+--- START OF FILE text/html ---
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -35,12 +36,12 @@
 
     body {
       background:
-        radial-gradient(circle at top left, rgba(226, 183, 116, 0.04), transparent 30%),
-        radial-gradient(circle at bottom right, rgba(217, 70, 239, 0.03), transparent 30%),
+        radial-gradient(circle at 10% 20%, rgba(226, 183, 116, 0.04), transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(217, 70, 239, 0.03), transparent 30%),
         var(--bg);
       color: var(--text);
       min-height: 100vh;
-      padding: 60px 20px;
+      padding: 40px 20px;
       letter-spacing: -0.01em;
     }
 
@@ -74,6 +75,184 @@
     .container {
       max-width: 1200px;
       margin: auto;
+    }
+
+    /* Профиль-бар сверху */
+    .profile-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 12px 24px;
+      margin-bottom: 40px;
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow);
+    }
+
+    .active-profile-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .bar-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--accent);
+      background: #121218;
+    }
+
+    /* Стили панели уведомлений */
+    .notif-wrapper {
+      position: relative;
+    }
+
+    .notif-bell-btn {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .notif-bell-btn:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .notif-badge {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      width: 8px;
+      height: 8px;
+      background-color: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .notif-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 12px);
+      right: 0;
+      width: 320px;
+      background: #0d0d12;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+      z-index: 100;
+      padding: 15px;
+    }
+
+    .notif-dropdown.active {
+      display: block;
+    }
+
+    .notif-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    .mark-read-btn {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 11px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .mark-read-btn:hover {
+      color: var(--accent-hover);
+    }
+
+    .notif-list {
+      max-height: 250px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .notif-list::-webkit-scrollbar {
+      width: 4px;
+    }
+    .notif-list::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 2px;
+    }
+
+    .notif-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid transparent;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+
+    .notif-item:hover {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: var(--border);
+    }
+
+    .notif-item.unread {
+      border-color: rgba(226, 183, 116, 0.15);
+      background: rgba(226, 183, 116, 0.02);
+    }
+
+    .notif-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--accent);
+    }
+
+    .notif-text-container {
+      flex: 1;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .notif-sender {
+      font-weight: 700;
+    }
+
+    .notif-time {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .notif-empty {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      padding: 20px 0;
     }
 
     .header-section {
@@ -485,16 +664,40 @@
       color: var(--text);
     }
 
+    /* Адаптивное описание фильма с кнопкой */
     .movie-desc {
       color: var(--muted);
       font-size: 13px;
       line-height: 1.6;
-      margin-bottom: 16px;
+      margin-bottom: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .movie-desc.collapsed {
       display: -webkit-box;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: 2; /* Всего 2 строчки */
       -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .toggle-desc-btn {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: left;
+      padding: 0;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: 0.2s;
+    }
+
+    .toggle-desc-btn:hover {
+      color: var(--accent-hover);
     }
 
     .movie-meta {
@@ -577,45 +780,45 @@
       transform: translateY(-2px);
     }
 
+    /* Компактные утонченные реакции */
     .reactions {
       display: flex;
-      gap: 8px;
+      gap: 6px; /* Меньше зазоры */
       flex-wrap: wrap;
-      margin-bottom: 20px;
-      padding-top: 15px;
+      margin-bottom: 16px;
+      padding-top: 12px;
       border-top: 1px solid var(--border);
     }
 
     .react-btn {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border);
-      color: var(--text);
-      border-radius: 30px;
-      padding: 6px 12px;
-      font-size: 12px;
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      color: var(--muted);
+      border-radius: 12px; /* Мягкие обводы */
+      padding: 4px 8px; /* Сильно сжаты отступы */
+      font-size: 11px; /* Чуть меньше шрифт */
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
     }
 
     .react-btn:hover {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: var(--accent);
-      transform: scale(1.05);
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(226, 183, 116, 0.25);
+      color: var(--text);
     }
 
     .react-btn.active {
-      background: rgba(226, 183, 116, 0.1);
+      background: rgba(226, 183, 116, 0.06);
       border-color: var(--accent);
       color: var(--accent);
-      box-shadow: 0 0 10px rgba(226, 183, 116, 0.15);
     }
 
     .react-btn span {
-      font-weight: 700;
-      font-size: 11px;
+      font-weight: 600;
+      font-size: 10px;
     }
 
     .comment-input {
@@ -641,10 +844,34 @@
       margin-top: 15px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      max-height: 200px;
+      gap: 12px;
+      max-height: 400px;
       overflow-y: auto;
       padding-right: 5px;
+    }
+
+    /* Сворачивание комментариев при наличии > 2 корневых сообщений */
+    .comment-list.collapsed .comment-wrapper:nth-child(n+3) {
+      display: none;
+    }
+
+    .toggle-comments-btn {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 12px;
+      text-align: left;
+      padding: 0;
+      display: none; /* Отображается скриптом */
+      transition: 0.2s;
+    }
+
+    .toggle-comments-btn:hover {
+      color: var(--accent-hover);
+      text-decoration: underline;
     }
 
     .comment-list::-webkit-scrollbar {
@@ -667,11 +894,192 @@
     .comment-top {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 6px;
+      align-items: center;
+      margin-bottom: 8px;
       color: var(--muted);
       font-size: 11px;
       font-weight: 500;
       letter-spacing: 0.02em;
+    }
+
+    .comment-author {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .comment-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--accent);
+      background: #121218;
+    }
+
+    .comment-text {
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    /* Модальные окна */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: #0d0d12;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      width: 100%;
+      max-width: 440px;
+      padding: 35px;
+      position: relative;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal.active .modal-content {
+      transform: translateY(0);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 28px;
+      cursor: pointer;
+      line-height: 1;
+      transition: 0.2s;
+    }
+
+    .close-modal:hover {
+      color: var(--text);
+    }
+
+    .modal h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .profiles-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .profile-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid var(--border);
+      padding: 12px 20px;
+      border-radius: 18px;
+      transition: 0.2s;
+    }
+
+    .profile-item.active-item {
+      border-color: var(--accent);
+      background: rgba(226, 183, 116, 0.04);
+    }
+
+    .profile-item-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .item-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--border);
+      background: #1e1e24;
+    }
+
+    .profile-item.active-item .item-avatar {
+      border-color: var(--accent);
+    }
+
+    .item-name {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .profile-edit-form {
+      border-top: 1px solid var(--border);
+      padding-top: 25px;
+    }
+
+    .profile-edit-form h3 {
+      font-size: 13px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 20px;
+    }
+
+    .edit-inputs {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .avatar-upload-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .edit-preview-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      background: #121218;
+    }
+
+    .avatar-upload-btn {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .avatar-upload-btn:hover {
+      color: var(--accent-hover);
     }
 
     @media(max-width: 1024px) {
@@ -709,6 +1117,32 @@
 <body>
 
 <div class="container">
+
+  <!-- Навигационная панель профиля -->
+  <div class="profile-bar">
+    <div class="active-profile-info" id="activeProfileDisplay">
+      <img class="bar-avatar" id="activeProfileAvatar" src="">
+      <span id="activeProfileName">Загрузка...</span>
+    </div>
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <!-- Панель уведомлений (колокольчик) -->
+      <div class="notif-wrapper">
+        <button class="notif-bell-btn" id="notifBell">
+          🔔 <span class="notif-badge" id="notifBadge" style="display: none;"></span>
+        </button>
+        <div class="notif-dropdown" id="notifDropdown">
+          <div class="notif-header">
+            <span>Уведомления</span>
+            <button id="markAllReadBtn" class="mark-read-btn">Прочитать все</button>
+          </div>
+          <div class="notif-list" id="notifList">
+            <!-- Загружается динамически -->
+          </div>
+        </div>
+      </div>
+      <button class="theme-btn" id="openProfileModal">👤 Мой Профиль</button>
+    </div>
+  </div>
 
   <div class="header-section">
     <h1>❤️ Яна и Юра смотрят фильмы ❤️</h1>
@@ -766,12 +1200,9 @@
       <select id="categoryInput">
         <option>😂 Комедии</option>
         <option>❤️ Романтическое</option>
-        <option>🔥 Телешоу</option>
+        <option>💀 Ужасы</option>
         <option>🍿 Под чипсы</option>
-        <option>🎬 Сериалы</option>
       </select>
-
-      <input id="authorInput" placeholder="Кто добавил">
 
       <button class="main-btn" id="addBtn">Добавить</button>
     </div>
@@ -791,6 +1222,45 @@
 
 </div>
 
+<!-- Модальное окно профилей -->
+<div class="modal" id="profileModal">
+  <div class="modal-content">
+    <button class="close-modal" id="closeProfileModal">&times;</button>
+    <h2>Кто сейчас у экрана?</h2>
+    
+    <div class="profiles-list">
+      <div class="profile-item" id="prof-yana">
+        <div class="profile-item-meta">
+          <img class="item-avatar" id="modal-yana-avatar" src="">
+          <span class="item-name" id="modal-yana-name">Яна</span>
+        </div>
+        <button class="theme-btn select-prof-btn" data-id="yana">Войти</button>
+      </div>
+      
+      <div class="profile-item" id="prof-yura">
+        <div class="profile-item-meta">
+          <img class="item-avatar" id="modal-yura-avatar" src="">
+          <span class="item-name" id="modal-yura-name">Юра</span>
+        </div>
+        <button class="theme-btn select-prof-btn" data-id="yura">Войти</button>
+      </div>
+    </div>
+    
+    <div class="profile-edit-form">
+      <h3>Редактировать профиль</h3>
+      <div class="edit-inputs">
+        <div class="avatar-upload-wrapper">
+          <img class="edit-preview-img" id="edit-avatar-preview" src="">
+          <label for="avatarFileInput" class="avatar-upload-btn">Сменить фото</label>
+          <input type="file" id="avatarFileInput" accept="image/*" style="display: none;">
+        </div>
+        <input type="text" id="edit-nickname-input" placeholder="Ваше имя">
+      </div>
+      <button class="main-btn" id="saveProfileBtn" style="width: 100%; margin-top: 20px;">Сохранить изменения</button>
+    </div>
+  </div>
+</div>
+
 <script type="module">
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -802,6 +1272,8 @@ import {
   deleteDoc,
   doc,
   updateDoc,
+  setDoc,
+  getDocs,
   onSnapshot,
   query,
   orderBy
@@ -825,12 +1297,245 @@ const db = getFirestore(app);
 const moviesRef = collection(db,"movies");
 const commentsRef = collection(db,"comments");
 const reactionsRef = collection(db,"reactions");
+const profilesRef = collection(db, "profiles");
+const notificationsRef = collection(db, "notifications");
 
 const categoriesContainer = document.getElementById("categories");
 const watchedGrid = document.getElementById("watchedGrid");
 
 const categoryMap = {};
 let selectedPoster = "";
+let allMovies = [];
+
+// Конфигурация локальных профилей
+let activeProfileId = localStorage.getItem("activeProfileId") || "yana";
+let profilesData = {
+  yana: { name: "Яна", avatar: "" },
+  yura: { name: "Юра", avatar: "" }
+};
+
+// Функция динамического рендеринга золотого аватара-заглушки при отсутствии фото
+function getAvatarUrl(name, avatar) {
+  if (avatar && avatar.trim() !== "") return avatar;
+  const initial = name ? name.charAt(0).toUpperCase() : "?";
+  return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><rect width="100%" height="100%" fill="%23121218"/><text x="50%" y="55%" font-family="Plus Jakarta Sans, sans-serif" font-size="44" font-weight="700" fill="%23e2b774" dominant-baseline="middle" text-anchor="middle">${initial}</text></svg>`;
+}
+
+// Обновление интерфейса в зависимости от активного профиля
+function updateProfileUI() {
+  const activeProf = profilesData[activeProfileId] || { name: activeProfileId === "yana" ? "Яна" : "Юра", avatar: "" };
+  
+  document.getElementById("activeProfileName").textContent = activeProf.name;
+  document.getElementById("activeProfileAvatar").src = getAvatarUrl(activeProf.name, activeProf.avatar);
+  
+  // Наполнение формы редактирования в модальном окне
+  document.getElementById("edit-nickname-input").value = activeProf.name;
+  document.getElementById("edit-avatar-preview").src = getAvatarUrl(activeProf.name, activeProf.avatar);
+  
+  // Наполнение списка выбора профилей
+  ["yana", "yura"].forEach(id => {
+    const p = profilesData[id];
+    const avatarEl = document.getElementById(`modal-${id}-avatar`);
+    const nameEl = document.getElementById(`modal-${id}-name`);
+    const containerEl = document.getElementById(`prof-${id}`);
+    
+    if (p && avatarEl && nameEl && containerEl) {
+      avatarEl.src = getAvatarUrl(p.name, p.avatar);
+      nameEl.textContent = p.name;
+      if (activeProfileId === id) {
+        containerEl.classList.add("active-item");
+      } else {
+        containerEl.classList.remove("active-item");
+      }
+    }
+  });
+}
+
+// Синхронизация профилей с Firebase в реальном времени
+onSnapshot(profilesRef, (snapshot) => {
+  if (snapshot.empty) {
+    // Если коллекция в БД пуста — инициализируем начальные аккаунты
+    setDoc(doc(db, "profiles", "yana"), { name: "Яна", avatar: "" });
+    setDoc(doc(db, "profiles", "yura"), { name: "Юра", avatar: "" });
+    return;
+  }
+  
+  snapshot.forEach(docItem => {
+    profilesData[docItem.id] = docItem.data();
+  });
+  
+  updateProfileUI();
+});
+
+// Синхронизация уведомлений в реальном времени
+onSnapshot(query(notificationsRef, orderBy("createdAt", "desc")), (snapshot) => {
+  const listEl = document.getElementById("notifList");
+  const badgeEl = document.getElementById("notifBadge");
+  listEl.innerHTML = "";
+
+  let unreadCount = 0;
+  let hasNotifs = false;
+
+  snapshot.forEach(docItem => {
+    const notif = docItem.data();
+    const notifId = docItem.id;
+
+    // Показываем уведомления, адресованные только активному пользователю
+    if (notif.toUserId !== activeProfileId) return;
+
+    hasNotifs = true;
+    if (!notif.read) unreadCount++;
+
+    const date = new Date(notif.createdAt).toLocaleDateString("ru-RU", {
+      day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"
+    });
+
+    const itemEl = document.createElement("div");
+    itemEl.className = `notif-item ${notif.read ? "" : "unread"}`;
+    
+    const avatar = getAvatarUrl(notif.fromUserName, notif.fromUserAvatar);
+
+    itemEl.innerHTML = `
+      <img src="${avatar}" class="notif-avatar">
+      <div class="notif-text-container">
+        <div>
+          <span class="notif-sender">${notif.fromUserName}</span> 
+          <span>${notif.text}</span>
+        </div>
+        <div class="notif-time">${date}</div>
+      </div>
+    `;
+
+    // Клик по уведомлению: помечаем прочитанным и плавно скроллим к фильму
+    itemEl.onclick = async () => {
+      await updateDoc(doc(db, "notifications", notifId), {
+        read: true
+      });
+      if (notif.movieId) {
+        const movieEl = document.getElementById(`movie-${notif.movieId}`);
+        if (movieEl) {
+          movieEl.scrollIntoView({ behavior: "smooth", block: "center" });
+          // Временный визуальный фокус на карточке
+          movieEl.style.borderColor = "var(--accent)";
+          setTimeout(() => {
+            movieEl.style.borderColor = "var(--border)";
+          }, 3000);
+        }
+      }
+      document.getElementById("notifDropdown").classList.remove("active");
+    };
+
+    listEl.appendChild(itemEl);
+  });
+
+  if (!hasNotifs) {
+    listEl.innerHTML = `<div class="notif-empty">Нет уведомлений 🍿</div>`;
+  }
+
+  if (unreadCount > 0) {
+    badgeEl.style.display = "block";
+  } else {
+    badgeEl.style.display = "none";
+  }
+});
+
+// Настройка выпадающего списка уведомлений
+const bellBtn = document.getElementById("notifBell");
+const dropdown = document.getElementById("notifDropdown");
+
+bellBtn.onclick = (e) => {
+  e.stopPropagation();
+  dropdown.classList.toggle("active");
+};
+
+document.addEventListener("click", (e) => {
+  if (!dropdown.contains(e.target) && e.target !== bellBtn) {
+    dropdown.classList.remove("active");
+  }
+});
+
+// Отметить все уведомления как прочитанные
+document.getElementById("markAllReadBtn").onclick = async () => {
+  const q = query(notificationsRef);
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach(async (docItem) => {
+    const data = docItem.data();
+    if (data.toUserId === activeProfileId && !data.read) {
+      await updateDoc(doc(db, "notifications", docItem.id), {
+        read: true
+      });
+    }
+  });
+};
+
+// Настройка модального окна профилей
+const modal = document.getElementById("profileModal");
+document.getElementById("openProfileModal").onclick = () => {
+  modal.classList.add("active");
+};
+document.getElementById("closeProfileModal").onclick = () => {
+  modal.classList.remove("active");
+};
+window.addEventListener("click", (e) => {
+  if (e.target === modal) {
+    modal.classList.remove("active");
+  }
+});
+
+// Клик по кнопке выбора профиля в списке
+document.querySelectorAll(".select-prof-btn").forEach(btn => {
+  btn.onclick = () => {
+    activeProfileId = btn.dataset.id;
+    localStorage.setItem("activeProfileId", activeProfileId);
+    updateProfileUI();
+    modal.classList.remove("active");
+  };
+});
+
+// Компрессия изображения через Canvas для быстрой синхронизации и экономии места в Firebase
+const fileInput = document.getElementById("avatarFileInput");
+fileInput.onchange = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = 120;
+      canvas.height = 120;
+      
+      const size = Math.min(img.width, img.height);
+      const x = (img.width - size) / 2;
+      const y = (img.height - size) / 2;
+      
+      ctx.drawImage(img, x, y, size, size, 0, 0, 120, 120);
+      const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+      document.getElementById("edit-avatar-preview").src = dataUrl;
+    };
+    img.src = evt.target.result;
+  };
+  reader.readAsDataURL(file);
+};
+
+// Сохранение отредактированного профиля
+document.getElementById("saveProfileBtn").onclick = async () => {
+  const newName = document.getElementById("edit-nickname-input").value.trim();
+  const newAvatar = document.getElementById("edit-avatar-preview").src;
+  
+  if (!newName) return;
+  
+  const isDefaultAvatar = newAvatar.startsWith("data:image/svg+xml");
+  
+  await setDoc(doc(db, "profiles", activeProfileId), {
+    name: newName,
+    avatar: isDefaultAvatar ? "" : newAvatar
+  });
+  
+  modal.classList.remove("active");
+};
 
 if(localStorage.getItem("theme") === "netflix"){
   document.body.classList.add("netflix-theme");
@@ -864,6 +1569,10 @@ function createCategory(title){
 function createMovieCard(movie,id){
   const card = document.createElement("div");
   card.className = "movie-card";
+  card.id = `movie-${id}`; // Назначаем ID для плавного скролла по клику на уведомление
+
+  const descriptionText = movie.desc || "Описание скоро появится 🍿";
+  const isLongDesc = descriptionText.length > 100;
 
   card.innerHTML = `
     <img
@@ -872,9 +1581,8 @@ function createMovieCard(movie,id){
     >
     <div class="movie-info">
       <div class="movie-title">${movie.title}</div>
-      <div class="movie-desc">
-        ${movie.desc || "Описание скоро появится 🍿"}
-      </div>
+      <div class="movie-desc ${isLongDesc ? 'collapsed' : ''}">${descriptionText}</div>
+      ${isLongDesc ? `<button class="toggle-desc-btn">Развернуть</button>` : ''}
       <div class="movie-meta">
         👤 Добавил: ${movie.author || "кто-то из вас"}
       </div>
@@ -896,6 +1604,16 @@ function createMovieCard(movie,id){
       <div class="comment-list"></div>
     </div>
   `;
+
+  // Логика развертывания описания
+  if (isLongDesc) {
+    const descEl = card.querySelector(".movie-desc");
+    const toggleDescBtn = card.querySelector(".toggle-desc-btn");
+    toggleDescBtn.onclick = () => {
+      const isCollapsed = descEl.classList.toggle("collapsed");
+      toggleDescBtn.textContent = isCollapsed ? "Развернуть" : "Свернуть";
+    };
+  }
 
   const watchBtn = card.querySelector(".watch-btn");
   const favBtn = card.querySelector(".fav-btn");
@@ -956,10 +1674,16 @@ function createMovieCard(movie,id){
     if(e.key !== "Enter") return;
     if(!commentInput.value.trim()) return;
 
+    // Считываем имя и фото активного пользователя в момент отправки комментария
+    const activeProf = profilesData[activeProfileId] || { name: activeProfileId === "yana" ? "Яна" : "Юра", avatar: "" };
+
     await addDoc(commentsRef,{
       movieId:id,
       text:commentInput.value,
-      createdAt:Date.now()
+      createdAt:Date.now(),
+      authorId: activeProfileId,
+      authorName: activeProf.name,
+      authorAvatar: activeProf.avatar || ""
     });
     commentInput.value = "";
   });
@@ -968,26 +1692,163 @@ function createMovieCard(movie,id){
     query(commentsRef,orderBy("createdAt")),
     snapshot=>{
       commentList.innerHTML = "";
+      
+      const rootComments = [];
+      const repliesMap = {};
+      let totalCommentsCount = 0;
+
       snapshot.forEach(docItem=>{
         const comment = docItem.data();
+        const commentId = docItem.id;
         if(comment.movieId !== id) return;
+        totalCommentsCount++;
 
-        const date = new Date(comment.createdAt).toLocaleDateString("ru-RU",{
-          day:"numeric",
-          month:"short"
+        const commentObj = { id: commentId, ...comment };
+        if (comment.parentId) {
+          if (!repliesMap[comment.parentId]) {
+            repliesMap[comment.parentId] = [];
+          }
+          repliesMap[comment.parentId].push(commentObj);
+        } else {
+          rootComments.push(commentObj);
+        }
+      });
+
+      // Рендеринг древовидной структуры комментариев
+      rootComments.forEach(root => {
+        const date = new Date(root.createdAt).toLocaleDateString("ru-RU",{
+          day:"numeric", month:"short", hour:"2-digit", minute:"2-digit"
+        });
+        const cName = root.authorName || "Аноним";
+        const cAvatar = getAvatarUrl(cName, root.authorAvatar);
+
+        const commentEl = document.createElement("div");
+        commentEl.className = "comment-wrapper";
+
+        let repliesHtml = "";
+        const replies = repliesMap[root.id] || [];
+        replies.forEach(rep => {
+          const repDate = new Date(rep.createdAt).toLocaleDateString("ru-RU",{
+            day:"numeric", month:"short", hour:"2-digit", minute:"2-digit"
+          });
+          const repName = rep.authorName || "Аноним";
+          const repAvatar = getAvatarUrl(repName, rep.authorAvatar);
+          
+          repliesHtml += `
+            <div class="comment reply-comment" style="margin-left: 24px; margin-top: 8px; border-left: 1.5px solid var(--accent); padding-left: 12px; background: rgba(255,255,255,0.01);">
+              <div class="comment-top">
+                <div class="comment-author">
+                  <img class="comment-avatar" src="${repAvatar}">
+                  <span>${repName}</span>
+                </div>
+                <span>${repDate}</span>
+              </div>
+              <div class="comment-text">${rep.text}</div>
+            </div>
+          `;
         });
 
-        const div = document.createElement("div");
-        div.className = "comment";
-        div.innerHTML = `
-          <div class="comment-top">
-            <span>💬 Комментарий</span>
-            <span>${date}</span>
+        commentEl.innerHTML = `
+          <div class="comment">
+            <div class="comment-top">
+              <div class="comment-author">
+                <img class="comment-avatar" src="${cAvatar}">
+                <span>${cName}</span>
+              </div>
+              <span>${date}</span>
+            </div>
+            <div class="comment-text">${root.text}</div>
+            <div style="margin-top: 8px; display: flex; gap: 10px;">
+              <button class="reply-trigger-btn" style="background:none; border:none; color:var(--accent); font-size:11px; font-weight:600; cursor:pointer;">Ответить</button>
+            </div>
+            <div class="reply-form-container" style="display:none; margin-top:10px; margin-left: 24px;">
+              <input class="reply-comment-input" placeholder="Ответить..." style="padding:10px; font-size:12px; border-radius:10px;">
+            </div>
           </div>
-          <div>${comment.text}</div>
+          <div class="comment-replies-list">
+            ${repliesHtml}
+          </div>
         `;
-        commentList.appendChild(div);
+
+        // Логика открытия формы и отправки ответа
+        const replyTrigger = commentEl.querySelector(".reply-trigger-btn");
+        const replyForm = commentEl.querySelector(".reply-form-container");
+        const replyInputField = commentEl.querySelector(".reply-comment-input");
+
+        replyTrigger.onclick = () => {
+          replyForm.style.display = replyForm.style.display === "none" ? "block" : "none";
+          if (replyForm.style.display === "block") {
+            replyInputField.focus();
+          }
+        };
+
+        replyInputField.onkeypress = async (e) => {
+          if (e.key !== "Enter") return;
+          if (!replyInputField.value.trim()) return;
+
+          const activeProf = profilesData[activeProfileId] || { name: activeProfileId === "yana" ? "Яна" : "Юра", avatar: "" };
+          
+          await addDoc(commentsRef, {
+            movieId: id,
+            parentId: root.id,
+            text: replyInputField.value,
+            createdAt: Date.now(),
+            authorId: activeProfileId,
+            authorName: activeProf.name,
+            authorAvatar: activeProf.avatar || ""
+          });
+
+          // Отправка уведомления создателю исходного комментария
+          if (root.authorId && root.authorId !== activeProfileId) {
+            await addDoc(notificationsRef, {
+              toUserId: root.authorId,
+              fromUserId: activeProfileId,
+              fromUserName: activeProf.name,
+              fromUserAvatar: activeProf.avatar || "",
+              type: "reply",
+              text: `ответил(а) на ваш комментарий к фильму «${movie.title}»`,
+              movieId: id,
+              createdAt: Date.now(),
+              read: false
+            });
+          }
+
+          replyInputField.value = "";
+          replyForm.style.display = "none";
+        };
+
+        commentList.appendChild(commentEl);
       });
+
+      // Логика сворачивания длинной ветки комментариев (>2 корневых)
+      if (!commentList.dataset.initialized) {
+        commentList.classList.add("collapsed");
+        commentList.dataset.initialized = "true";
+      }
+
+      let toggleBtn = card.querySelector(".toggle-comments-btn");
+      if (!toggleBtn) {
+        toggleBtn = document.createElement("button");
+        toggleBtn.className = "toggle-comments-btn";
+        card.querySelector(".movie-info").appendChild(toggleBtn);
+      }
+
+      const rootCount = rootComments.length;
+      if (rootCount > 2) {
+        toggleBtn.style.display = "block";
+        toggleBtn.textContent = commentList.classList.contains("collapsed")
+          ? `Показать комментарии (${rootCount})`
+          : "Скрыть комментарии";
+        
+        toggleBtn.onclick = () => {
+          commentList.classList.toggle("collapsed");
+          toggleBtn.textContent = commentList.classList.contains("collapsed")
+            ? `Показать комментарии (${rootCount})`
+            : "Скрыть комментарии";
+        };
+      } else {
+        toggleBtn.style.display = "none";
+      }
   });
 
   if(movie.watched){
@@ -1017,7 +1878,7 @@ function renderHeatmap(movies){
     }
     daysMap[date].count++;
 
-    if(movie.category.includes("❤️")){
+    if(movie.category && movie.category.includes("❤️")){
       daysMap[date].emoji = "❤️";
     }
   });
@@ -1057,13 +1918,16 @@ function updateStats(movies){
 onSnapshot(moviesRef,(snapshot)=>{
   categoriesContainer.innerHTML = "";
   watchedGrid.innerHTML = "";
+  allMovies = [];
 
   Object.keys(categoryMap).forEach(key=>delete categoryMap[key]);
   const movies = [];
 
   snapshot.forEach((docItem)=>{
     const movie = docItem.data();
-    movies.push(movie);
+    const movieWithId = { id: docItem.id, ...movie };
+    movies.push(movieWithId);
+    allMovies.push(movieWithId);
     createMovieCard(movie,docItem.id);
   });
 
@@ -1118,11 +1982,14 @@ document.getElementById("addBtn").onclick = async ()=>{
   const title = titleInput.value.trim();
   const desc = descInput.value.trim();
   const category = document.getElementById("categoryInput").value;
-  const author = document.getElementById("authorInput").value.trim();
+  
+  // Автоматическая установка автора на основе активного профиля
+  const currentProfile = profilesData[activeProfileId];
+  const author = currentProfile.name;
 
   if(!title) return;
 
-  await addDoc(moviesRef,{
+  const movieDoc = await addDoc(moviesRef,{
     title,
     desc,
     category,
@@ -1133,9 +2000,22 @@ document.getElementById("addBtn").onclick = async ()=>{
     createdAt:Date.now()
   });
 
+  // Отправка уведомления второму профилю о добавлении нового фильма
+  const targetProfileId = activeProfileId === "yana" ? "yura" : "yana";
+  await addDoc(notificationsRef, {
+    toUserId: targetProfileId,
+    fromUserId: activeProfileId,
+    fromUserName: currentProfile.name,
+    fromUserAvatar: currentProfile.avatar || "",
+    type: "add_movie",
+    text: `добавил(а) новый фильм «${title}»`,
+    movieId: movieDoc.id,
+    createdAt: Date.now(),
+    read: false
+  });
+
   titleInput.value = "";
   descInput.value = "";
-  document.getElementById("authorInput").value = "";
   selectedPoster = "";
 };
 
@@ -1166,3 +2046,4 @@ document.getElementById("randomBtn").onclick = ()=>{
 
 </body>
 </html>
+--- END OF FILE text/html ---
